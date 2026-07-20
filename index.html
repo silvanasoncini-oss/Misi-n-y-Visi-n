@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misión y Visión Personal - Tu Plan Estratégico</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root { --primary: #8b5cf6; --bg: #0b1120; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #f8fafc; margin: 0; min-height: 100vh; }
+        .font-display { font-family: 'Playfair Display', serif; }
+        .text-gradient { background: linear-gradient(135deg, #8b5cf6, #3b82f6, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .glass { background: rgba(30, 41, 59, 0.5); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        textarea, input[type="text"], input[type="date"] { background: rgba(15, 23, 42, 0.6); border: 1px solid #334155; color: #f8fafc; transition: all 0.2s; }
+        textarea:focus, input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2); outline: none; }
+        .card-sel { transition: all 0.15s; cursor: pointer; user-select: none; }
+        .card-sel:hover { border-color: rgba(139, 92, 246, 0.5); }
+        .card-sel.sel { border-color: var(--primary); background: rgba(139, 92, 246, 0.25); color: white; box-shadow: 0 0 10px rgba(139, 92, 246, 0.3); transform: scale(1.02); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+        #progress-bar { transition: width 0.4s ease; }
+        .step-content { display: none; }
+        .step-content.active { display: block; animation: fadeIn 0.5s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes sound-wave { 0%, 100% { height: 4px; } 50% { height: 16px; } }
+        .wave-bar { display: inline-block; width: 3px; margin: 0 1px; background: var(--primary); border-radius: 2px; animation: sound-wave 1s ease-in-out infinite; }
+        .wave-bar:nth-child(1) { animation-delay: 0s; } .wave-bar:nth-child(2) { animation-delay: 0.1s; } .wave-bar:nth-child(3) { animation-delay: 0.2s; } .wave-bar:nth-child(4) { animation-delay: 0.3s; } .wave-bar:nth-child(5) { animation-delay: 0.4s; }
+        @keyframes music-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.4); } 50% { box-shadow: 0 0 0 8px rgba(56, 189, 248, 0); } }
+        .music-active { animation: music-pulse 2s infinite; }
+        .draw-section { border: 2px dashed rgba(255,255,255,0.15); border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; min-height: 180px; }
+        .draw-section:hover { border-color: rgba(139, 92, 246, 0.5); background: rgba(139, 92, 246, 0.05); }
+        .draw-section img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }
+        .scroll-container { max-height: 300px; overflow-y: auto; padding: 4px; }
+        .audio-status { font-size: 11px; padding: 4px 8px; border-radius: 6px; margin-top: 6px; display: inline-block; }
+        .audio-status.success { background: rgba(34, 197, 94, 0.2); color: #4ade80; }
+        .audio-status.error { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+        .audio-status.info { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .audio-status.warning { background: rgba(251, 191, 36, 0.2); color: #fbbf24; }
+        
+        .music-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 20px;
+            font-size: 11px;
+            color: #7dd3fc;
+        }
+        .music-indicator .dot {
+            width: 6px;
+            height: 6px;
+            background: #38bdf8;
+            border-radius: 50%;
+            animation: music-pulse 1.5s infinite;
+        }
+        
+        /* Indicador de audio de visualización activo */
+        .viz-audio-active {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: rgba(168, 85, 247, 0.15);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 20px;
+            font-size: 11px;
+            color: #c4b5fd;
+        }
+        .viz-audio-active .dot {
+            width: 6px;
+            height: 6px;
+            background: #a855f7;
+            border-radius: 50%;
+            animation: music-pulse 1.5s infinite;
+        }
+    </style>
+</head>
+<body>
+
+<div class="fixed inset-0 pointer-events-none z-0">
+    <div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_top_left,_var(--tw-gradient-stops))] from-purple-900/10 via-slate-900 to-slate-950"></div>
+</div>
+
+<header class="fixed top-0 w-full z-50 glass border-b border-white/5 no-print">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        <div class="flex items-center gap-3 flex-wrap">
+            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-500 to-blue-600 flex items-center justify-center font-bold text-white font-display text-sm">MV</div>
+            <span class="font-display font-bold text-lg text-white">Tu Plan Estratégico</span>
+            <span id="music-indicator" class="music-indicator hidden">
+                <span class="dot"></span>
+                <span id="music-indicator-text">🎵 Río</span>
+            </span>
+            <span id="viz-audio-indicator" class="viz-audio-active hidden">
+                <span class="dot"></span>
+                <span>🎙️ Voz</span>
+            </span>
+        </div>
+        <div class="flex items-center gap-3">
+            <div class="w-32 sm:w-48 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                <div id="progress-bar" class="h-full bg-gradient-to-r from-purple-500 to-blue-500 w-0"></div>
+            </div>
+            <button onclick="toggleAudioConfig()" class="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white border border-white/10 transition-colors" title="Configuración de Audio">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Panel de Configuración de Audio -->
+<div id="audio-config-panel" class="fixed top-20 right-4 z-50 glass rounded-xl p-5 hidden no-print" style="width: 340px;">
+    <div class="flex items-center justify-between mb-4">
+        <h3 class="text-white font-semibold flex items-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Configuración de Audio
+        </h3>
+        <button onclick="toggleAudioConfig()" class="text-gray-400 hover:text-white">✕</button>
+    </div>
+    
+    <div class="space-y-4">
+        <div class="border-b border-white/10 pb-4">
+            <label class="text-sm text-gray-300 mb-2 block font-medium">🎵 Música de Fondo Continua</label>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Sonido Ambiental</label>
+                    <select id="ambient-sound" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-800 border border-slate-600 text-white">
+                        <option value="none">Desactivado</option>
+                        <option value="river" selected>Sonido de Río</option>
+                        <option value="forest">Bosque y Pájaros</option>
+                        <option value="rain">Lluvia Suave</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Volumen: <span id="music-vol-display">30%</span></label>
+                    <input type="range" id="music-volume" min="0" max="100" value="30" class="w-full">
+                </div>
+                <button onclick="toggleAmbientSound()" id="btn-ambient" class="w-full px-3 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm text-white transition-colors">
+                    ▶️ Activar Música
+                </button>
+            </div>
+        </div>
+        
+        <div class="border-b border-white/10 pb-4">
+            <label class="text-sm text-gray-300 mb-2 block font-medium">🎙️ Voz de las Guías</label>
+            <div class="space-y-3">
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Seleccionar Voz</label>
+                    <select id="voice-select" class="w-full px-3 py-2 rounded-lg text-sm bg-slate-800 border border-slate-600 text-white">
+                        <option>Cargando voces...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Velocidad: <span id="rate-display">0.85x</span></label>
+                    <input type="range" id="voice-rate" min="0.5" max="1.5" step="0.05" value="0.85" class="w-full">
+                </div>
+                <div>
+                    <label class="text-xs text-gray-400 mb-1 block">Tono: <span id="pitch-display">0.95x</span></label>
+                    <input type="range" id="voice-pitch" min="0.5" max="1.5" step="0.05" value="0.95" class="w-full">
+                </div>
+                <button onclick="testVoice()" class="w-full px-3 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm text-white transition-colors">
+                    🔊 Probar Voz Configurada
+                </button>
+            </div>
+        </div>
+        
+        <div class="text-xs text-gray-500 italic">
+            💡 Los cambios se aplican inmediatamente a las guías de audio de cada etapa.
+        </div>
+    </div>
+</div>
+
+<main class="relative z-10 max-w-3xl mx-auto w-full px-4 pt-24 pb-24">
+
+    <!-- STEP 0: INTRO -->
+    <section id="step-0" class="step-content active">
+        <div class="text-center py-8">
+            <div class="inline-block px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs mb-6 tracking-wider uppercase">Ejercicio de Vida</div>
+            <h1 class="font-display text-4xl sm:text-6xl font-bold mb-4 text-white">Descubre tu <span class="text-gradient">Propósito</span></h1>
+            <p class="text-gray-400 text-lg mb-10 max-w-xl mx-auto italic">"Aquel que tiene un porqué para vivir, se puede enfrentar a todos los cómos." <br><span class="text-sm text-gray-500 not-italic">- Friedrich Nietzsche</span></p>
+            <div class="glass rounded-2xl p-8 text-left max-w-lg mx-auto shadow-xl border border-white/10">
+                <h3 class="font-display text-xl font-semibold mb-6 text-white">Comienza aquí</h3>
+                <div class="space-y-5">
+                    <div>
+                        <label class="q-label block text-xs uppercase tracking-wider text-gray-500 mb-2 font-medium">Tu Nombre</label>
+                        <input type="text" id="input-name" class="w-full px-4 py-3 rounded-xl" placeholder="Escribe tu nombre...">
+                    </div>
+                    <div>
+                        <label class="q-label block text-xs uppercase tracking-wider text-gray-500 mb-2 font-medium">Fecha Actual</label>
+                        <input type="date" id="input-date" class="w-full px-4 py-3 rounded-xl">
+                    </div>
+                    <button onclick="goTo(1)" class="w-full mt-4 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-bold text-lg text-white shadow-lg hover:opacity-90 transition-all">
+                        Comenzar el Viaje →
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 1: CONTEXTO -->
+    <section id="step-1" class="step-content">
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-purple-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-xl">🎙️</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Guía de esta etapa</h3>
+                    <p class="text-xs text-gray-400">Escucha las instrucciones antes de responder</p>
+                </div>
+                <button onclick="speakGuide(1)" id="listen-btn-1" class="px-4 py-2 rounded-lg text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Escuchar
+                </button>
+            </div>
+            <div id="wave-1" class="hidden h-6 flex items-center justify-center gap-1 mb-2">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold border border-purple-500/30">1</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">El Contexto</h2><p class="text-sm text-gray-400">Expectativas y profecías</p></div>
+        </div>
+        <div class="space-y-6">
+            <div class="glass rounded-2xl p-6">
+                <p class="text-gray-400 mb-4 text-sm">¿Qué esperaban de ti las personas importantes en tu vida?</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">Mi madre esperaba...</label><textarea id="q-madre" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">Mi padre esperaba...</label><textarea id="q-padre" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">Mis abuelos esperaban...</label><textarea id="q-abuelos" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">Otra persona importante...</label><textarea id="q-otro" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-6 space-y-4">
+                <h3 class="font-display text-lg font-semibold text-white">Sueños y Profecías</h3>
+                <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué sueños no pudieron cumplir tus padres? ¿Cuáles son las vidas no vividas por ellos?</label><textarea id="q-suenos" rows="3" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Influyeron en ti? ¿Cómo?</label><textarea id="q-influencia" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block text-red-400">Profecía negativa hacia mí:</label><textarea id="q-profecia-neg" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block text-green-400">Profecía positiva hacia mí:</label><textarea id="q-profecia-pos" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 2: INFANCIA Y TALENTOS -->
+    <section id="step-2" class="step-content">
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-purple-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-xl">🎙️</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Guía de esta etapa</h3>
+                    <p class="text-xs text-gray-400">Escucha las instrucciones antes de responder</p>
+                </div>
+                <button onclick="speakGuide(2)" id="listen-btn-2" class="px-4 py-2 rounded-lg text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Escuchar
+                </button>
+            </div>
+            <div id="wave-2" class="hidden h-6 flex items-center justify-center gap-1 mb-2">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold border border-purple-500/30">2</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">Infancia y Talentos</h2><p class="text-sm text-gray-400">Reconectando con tu esencia</p></div>
+        </div>
+        <div class="space-y-6">
+            <div class="glass rounded-2xl p-6 space-y-4">
+                <p class="text-gray-400 text-sm italic">"Los talentos se manifiestan claramente cuando somos niños."</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿A qué jugabas de niño/a?</label><textarea id="q-juegos" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Tus juguetes favoritos?</label><textarea id="q-juguetes" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué juego se te hacía más fácil?</label><textarea id="q-facil" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué querías ser de grande?</label><textarea id="q-grande" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                </div>
+                <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Hay algo de lo que hoy haces que se relacione con lo anterior?</label><textarea id="q-relacion" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+            </div>
+            <div class="glass rounded-2xl p-6 space-y-4">
+                <h3 class="font-display text-lg font-semibold text-white">Reconocimiento</h3>
+                <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué es lo que te dicen que haces bien?</label><textarea id="q-dicen" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                <div><label class="q-label text-sm text-gray-400 mb-1 block">Escribe 5 talentos que te reconozcas</label><textarea id="q-talentos" rows="3" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Cuáles desarrollaste?</label><textarea id="q-desarrollo" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Cuáles abandonaste?</label><textarea id="q-abandono" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                </div>
+                <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué es lo que más te gusta hacer?</label><textarea id="q-gusta" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 3: VALORES Y SELECCIÓN -->
+    <section id="step-3" class="step-content">
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-purple-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center text-xl">🎙️</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Guía de esta etapa</h3>
+                    <p class="text-xs text-gray-400">Escucha las instrucciones antes de responder</p>
+                </div>
+                <button onclick="speakGuide(3)" id="listen-btn-3" class="px-4 py-2 rounded-lg text-sm font-medium bg-purple-600 hover:bg-purple-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Escuchar
+                </button>
+            </div>
+            <div id="wave-3" class="hidden h-6 flex items-center justify-center gap-1 mb-2">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold border border-purple-500/30">3</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">Valores y Servicio</h2><p class="text-sm text-gray-400">El corazón de tu misión</p></div>
+        </div>
+        
+        <div class="glass rounded-2xl p-6 mb-6">
+            <h3 class="font-semibold text-white mb-3">¿A quién admiras?</h3>
+            <p class="text-sm text-gray-400 mb-4">Piensa en personas que admires. ¿Qué valores ves en ellas?</p>
+            <div><label class="q-label text-sm text-gray-400 mb-1 block">Personas que admiras</label><textarea id="q-admira" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+            <div class="mt-3"><label class="q-label text-sm text-gray-400 mb-1 block">Valores que representan</label><textarea id="q-valores" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+        </div>
+
+        <div class="glass rounded-2xl p-6 mb-6">
+            <h3 class="font-semibold text-white mb-1">1. Acciones que te entusiasman</h3>
+            <p class="text-xs text-gray-500 mb-3">Selecciona las 3 acciones principales de la lista.</p>
+            <div class="scroll-container grid grid-cols-2 sm:grid-cols-4 gap-2" id="verbs-box"></div>
+        </div>
+        
+        <div class="glass rounded-2xl p-6">
+            <h3 class="font-semibold text-white mb-1">2. ¿A quién deseas servir?</h3>
+            <p class="text-xs text-gray-500 mb-3">Selecciona los 3 grupos principales.</p>
+            <div class="scroll-container grid grid-cols-2 sm:grid-cols-4 gap-2" id="groups-box"></div>
+            <div class="mt-4 pt-4 border-t border-gray-700">
+                <p class="text-xs text-gray-400 mb-2">¿No encuentras tu grupo? Agrega uno personalizado:</p>
+                <div class="flex gap-2">
+                    <input type="text" id="custom-group-input" class="flex-1 px-3 py-2 rounded-lg text-sm placeholder-gray-600" placeholder="Escribe aquí...">
+                    <button onclick="addCustomGroup()" class="px-3 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm text-white font-medium transition-colors whitespace-nowrap">+ Agregar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 4: MISIÓN -->
+    <section id="step-4" class="step-content">
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-green-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center text-xl">🎙️</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Guía de esta etapa</h3>
+                    <p class="text-xs text-gray-400">Escucha las instrucciones antes de responder</p>
+                </div>
+                <button onclick="speakGuide(4)" id="listen-btn-4" class="px-4 py-2 rounded-lg text-sm font-medium bg-green-600 hover:bg-green-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Escuchar
+                </button>
+            </div>
+            <div id="wave-4" class="hidden h-6 flex items-center justify-center gap-1 mb-2">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-green-500/20 text-green-400 flex items-center justify-center font-bold border border-green-500/30">4</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">Tu Misión Personal</h2><p class="text-sm text-gray-400">El propósito de tu vida</p></div>
+        </div>
+        
+        <div class="bg-gradient-to-br from-purple-900/50 to-blue-900/50 border border-purple-500/30 rounded-2xl p-8 text-center shadow-2xl mb-6">
+            <p class="text-gray-400 text-xs mb-6 uppercase tracking-widest">Declaración de Misión</p>
+            <div class="font-display text-2xl leading-relaxed text-white max-w-2xl mx-auto">
+                <p>"Mi MISIÓN es <span id="pv-acciones" class="text-purple-400 underline decoration-wavy decoration-purple-500/50">...</span> con <span id="pv-valores" class="text-blue-400 underline decoration-wavy decoration-blue-500/50">...</span> al servicio de <span id="pv-grupos" class="text-pink-400 underline decoration-wavy decoration-pink-500/50">...</span>"</p>
+            </div>
+        </div>
+        <div class="glass rounded-2xl p-6">
+            <label class="q-label text-sm text-gray-400 mb-2 block">Ajusta tu misión final:</label>
+            <textarea id="mision-final" rows="4" class="w-full px-4 py-3 rounded-xl font-display text-xl text-center"></textarea>
+        </div>
+    </section>
+
+    <!-- STEP 5: VISIÓN -->
+    <section id="step-5" class="step-content">
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-blue-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-xl">🎙️</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Guía de esta etapa</h3>
+                    <p class="text-xs text-gray-400">Escucha las instrucciones antes de responder</p>
+                </div>
+                <button onclick="speakGuide(5)" id="listen-btn-5" class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Escuchar
+                </button>
+            </div>
+            <div id="wave-5" class="hidden h-6 flex items-center justify-center gap-1 mb-2">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold border border-blue-500/30">5</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">Visión Personal</h2><p class="text-sm text-gray-400">Valentía y Legado</p></div>
+        </div>
+        <div class="space-y-6">
+            <div class="glass rounded-2xl p-6 space-y-4">
+                <p class="text-gray-400 text-sm italic border-l-4 border-blue-500 pl-4">"¿Qué harías si fueras 100 veces más valiente o corajudo/a y el dinero no importara?"</p>
+                <div class="space-y-4">
+                    <div>
+                        <label class="q-label text-sm text-gray-400 mb-1 block flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-pink-500/20 flex items-center justify-center text-xs">👨‍👩‍👧</span>
+                            Respecto de tu <strong class="text-white">Familia</strong>
+                        </label>
+                        <textarea id="v-familia" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+                    </div>
+                    <div>
+                        <label class="q-label text-sm text-gray-400 mb-1 block flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-blue-500/20 flex items-center justify-center text-xs">💼</span>
+                            Respecto de tu <strong class="text-white">Trabajo</strong>
+                        </label>
+                        <textarea id="v-laboral" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+                    </div>
+                    <div>
+                        <label class="q-label text-sm text-gray-400 mb-1 block flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-xs">🌴</span>
+                            Respecto de tu <strong class="text-white">Tiempo Libre</strong>
+                        </label>
+                        <textarea id="v-tiempo" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass rounded-2xl p-6 space-y-4">
+                <p class="text-gray-400 text-sm italic border-l-4 border-red-500 pl-4">"Estás a punto de morir, y alguien te pregunta: ¿de qué estás orgulloso/a respecto de tu vida? ¿Qué le contarías a partir de los 3 ámbitos anteriores?"</p>
+                <textarea id="v-orgulloso" rows="3" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+            </div>
+
+            <div class="glass rounded-2xl p-6 space-y-4">
+                <h4 class="text-white font-semibold flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center text-sm">🔮</span>
+                    Proyección a 5 años
+                </h4>
+                <p class="text-xs text-gray-400">Imagina tu vida de aquí a cinco años y responde:</p>
+                <div class="space-y-4">
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué crees que has logrado?</label><textarea id="v-logros" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Qué crees que has aprendido?</label><textarea id="v-aprendido" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                    <div><label class="q-label text-sm text-gray-400 mb-1 block">¿Cómo te ves respecto a tus relaciones y con quién te estás relacionando?</label><textarea id="v-relaciones" rows="2" class="w-full px-3 py-2 rounded-xl text-sm"></textarea></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 6: VISUALIZACIÓN -->
+    <section id="step-6" class="step-content">
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center font-bold border border-blue-500/30">6</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">Visualización Guiada</h2><p class="text-sm text-gray-400">El Bosque, la Pantalla y la Semilla</p></div>
+        </div>
+
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-blue-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center text-xl">🌳</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Tu Visualización</h3>
+                    <p class="text-xs text-gray-400">Busca un lugar cómodo. Cierra los ojos. Escucha y déjate llevar.</p>
+                </div>
+                <button onclick="playVisualization()" id="listen-btn-viz" class="px-4 py-2 rounded-lg text-sm font-medium bg-blue-600 hover:bg-blue-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Iniciar
+                </button>
+            </div>
+            <div id="wave-viz" class="hidden h-8 flex items-center justify-center gap-1 mb-3">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+            
+            <!-- SECCIÓN DE AUDIO DE VISUALIZACIÓN MEJORADA -->
+            <div class="mt-3 pt-3 border-t border-white/5">
+                <p class="text-xs text-gray-400 mb-2 flex items-center gap-2 font-medium">
+                    <span class="w-2 h-2 rounded-full bg-purple-500"></span>
+                    🎙️ Audio de la Visualización
+                </p>
+                
+                <!-- Estado del audio -->
+                <div id="audio-status" class="audio-status warning mb-2">
+                    ⏳ Esperando audio... Subí tu archivo de audio o verificá que "Dinámca de visión.wav" esté en la misma carpeta.
+                </div>
+                
+                <!-- Input para subir audio -->
+                <div class="mb-3">
+                    <label class="cursor-pointer inline-flex items-center gap-2 px-3 py-2 bg-purple-600 hover:bg-purple-500 rounded-lg text-sm text-white transition-colors">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"/></svg>
+                        <span id="upload-label">📤 Subir mi audio de visualización</span>
+                        <input type="file" id="viz-audio-upload" accept="audio/*" class="hidden" onchange="handleVizAudioUpload(event)">
+                    </label>
+                </div>
+                
+                <!-- Reproductor de audio (oculto hasta que se cargue) -->
+                <audio id="my-viz-audio" class="w-full mb-2 hidden" controls></audio>
+                
+                <p class="text-xs text-gray-500 italic">💡 Al hacer clic en "Iniciar", se reproducirá tu audio con música de río de fondo.</p>
+            </div>
+        </div>
+
+        <div class="glass rounded-2xl p-8 text-center">
+            <p class="text-gray-400 mb-6">Esta es la guía textual de la visualización. Si prefieres leer, sigue el texto a continuación.</p>
+            <div class="bg-black/40 rounded-xl p-6 mb-6 text-left max-h-[400px] overflow-y-auto text-sm text-gray-300 leading-relaxed">
+                <p class="mb-4">Ahora ponte en un lugar cómodo, cierra los ojos y conéctate con tu respiración, inhala y exhala, inhala y exhala, inhala y exhala.</p>
+                <p class="mb-4">Imagina que vas caminando por un bosque lleno de árboles muy altos y antiguos, al costado corre un río, no muy ancho, pero con el agua suficiente para crear un ruido muy agradable que te acompaña en tu camino.</p>
+                <p class="mb-4">Llevas una mochila en tu espalda y dentro de la mochila llevas todas las experiencias que has logrado a lo largo de tu vida; cada una de esas experiencias está representada por una piedra, algunas son muy grandes y pesadas y otras no tanto. A medida que vas caminando por el costado del río, vas sacando cada una de esas piedras, las que son más pesadas, lo que no te sirven, y lentamente te vas a sintiendo más liviano; pero en tu mochila también están tus aprendizajes, tus valores, todo lo que te nutre, te guía y te importa. Cada una de estas cosas, están representadas por piedras preciosas, brillantes y de colores. A esas piedras las va a conservar.</p>
+                <p class="mb-4">Ahora te detienes y sigues sintiendo el ruido del agua, desvías tu mirada hacia adelante. Vas a imaginar que frente a ti hay una gran pantalla blanca, dividida en tres sectores, cada uno de las cuales representará tres contextos: el familiar, el laboral y tu tiempo libre. Imagina tu vida de aquí a cinco años, uno a uno, en cada uno de esos tres contextos. A nivel familiar … ¿Qué ves? ¿Qué colores aparecen? ¿Con quién estás? ¿Qué sentís? ¿Qué olores podés distinguir? A nivel laboral … ¿Qué ves? ¿Qué colores aparecen? ¿Con quién estás? ¿Qué sentís? ¿Qué olores podés distinguir? Pensando en tu tiempo libre… ¿Qué ves? ¿Qué colores aparecen? ¿Con quién estás? ¿Qué sentís? ¿Qué olores podés distinguir?</p>
+                <p class="mb-4">Ahora imagina que esa pantalla lentamente va girando y se va convirtiendo en una bola dorada, que cada vez se hace más pequeña, y cuando es del tamaño de una pequeña semilla la tomas entre tus manos, imagina que representa todo ese sueño que imaginaste anteriormente.</p>
+                <p class="mb-4">Acerca tus manos y la semilla hacia tu corazón y al entrar en contacto con tu cuerpo, comienzan a iluminarse cada una de tus células, imprimiendo en todas ellas ese sueño, el brillo crece y sale de todo tu cuerpo e inunda todo el bosque.</p>
+                <p>Ahora vuelve a conectarte con tu respiración … inhala y exhala, inhala y exhala …, y una vez más inhala y exhala. Comienza a mover tus manos, toma contacto con tu cuerpo y lentamente abre tus ojos.</p>
+            </div>
+            <button onclick="goTo(7)" class="px-6 py-3 bg-blue-600 hover:bg-blue-500 rounded-xl font-semibold text-white transition-all">
+                He finalizado la visualización →
+            </button>
+        </div>
+    </section>
+
+    <!-- STEP 7: DIBUJOS Y RELATOS -->
+    <section id="step-7" class="step-content">
+        <div class="audio-guide-box glass rounded-xl p-5 mb-6 border-l-4 border-pink-500 no-print">
+            <div class="flex items-center gap-3 mb-3">
+                <div class="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center text-xl">🎙️</div>
+                <div class="flex-1">
+                    <h3 class="text-white font-semibold">Guía de esta etapa</h3>
+                    <p class="text-xs text-gray-400">Escucha las instrucciones antes de responder</p>
+                </div>
+                <button onclick="speakGuide(7)" id="listen-btn-7" class="px-4 py-2 rounded-lg text-sm font-medium bg-pink-600 hover:bg-pink-500 text-white transition-all flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                    Escuchar
+                </button>
+            </div>
+            <div id="wave-7" class="hidden h-6 flex items-center justify-center gap-1 mb-2">
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+                <span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span><span class="wave-bar"></span>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-4 mb-8">
+            <span class="w-10 h-10 rounded-full bg-pink-500/20 text-pink-400 flex items-center justify-center font-bold border border-pink-500/30">7</span>
+            <div><h2 class="font-display text-2xl font-bold text-white">Dibujos y Relatos</h2><p class="text-sm text-gray-400">Consolidando tu visión en los 3 ámbitos</p></div>
+        </div>
+
+        <div class="glass rounded-2xl p-6 mb-6">
+            <h3 class="font-display text-xl font-bold text-white mb-2 flex items-center gap-2"><span>🎨</span> Tus Dibujos de Visión</h3>
+            <p class="text-sm text-gray-400 mb-5">Divide una hoja en 3 y dibuja tus visiones: todo lo que visualizaste respecto de tu <strong class="text-pink-400">familia</strong>, tu <strong class="text-blue-400">trabajo</strong> y tu <strong class="text-green-400">tiempo libre</strong>. Sube una foto de cada dibujo.</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div>
+                    <p class="text-sm text-pink-400 font-medium mb-2 text-center">👨‍👩‍👧 Familia</p>
+                    <div class="draw-section" onclick="document.getElementById('file-familia').click()">
+                        <input type="file" id="file-familia" accept="image/*" class="hidden" onchange="handleDrawUpload(event, 'img-familia', 'ph-familia')">
+                        <div id="ph-familia" class="flex flex-col items-center justify-center h-full py-8">
+                            <svg class="w-10 h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span class="text-xs text-gray-500">Subir dibujo</span>
+                        </div>
+                        <img id="img-familia" class="hidden">
+                    </div>
+                </div>
+                <div>
+                    <p class="text-sm text-blue-400 font-medium mb-2 text-center">💼 Trabajo</p>
+                    <div class="draw-section" onclick="document.getElementById('file-trabajo').click()">
+                        <input type="file" id="file-trabajo" accept="image/*" class="hidden" onchange="handleDrawUpload(event, 'img-trabajo', 'ph-trabajo')">
+                        <div id="ph-trabajo" class="flex flex-col items-center justify-center h-full py-8">
+                            <svg class="w-10 h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span class="text-xs text-gray-500">Subir dibujo</span>
+                        </div>
+                        <img id="img-trabajo" class="hidden">
+                    </div>
+                </div>
+                <div>
+                    <p class="text-sm text-green-400 font-medium mb-2 text-center">🌴 Tiempo Libre</p>
+                    <div class="draw-section" onclick="document.getElementById('file-tiempo').click()">
+                        <input type="file" id="file-tiempo" accept="image/*" class="hidden" onchange="handleDrawUpload(event, 'img-tiempo', 'ph-tiempo')">
+                        <div id="ph-tiempo" class="flex flex-col items-center justify-center h-full py-8">
+                            <svg class="w-10 h-10 text-gray-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <span class="text-xs text-gray-500">Subir dibujo</span>
+                        </div>
+                        <img id="img-tiempo" class="hidden">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="glass rounded-2xl p-6 mb-6">
+            <h3 class="font-display text-xl font-bold text-white mb-2 flex items-center gap-2"><span>📖</span> Tus Relatos desde el Futuro</h3>
+            <p class="text-sm text-gray-400 mb-5">Vas a desarrollar los siguientes relatos como si todo fuera posible. Imagina que han pasado 5 años y cuenta las cosas importantes que tuviste que hacer para llegar a este punto.</p>
+            <div class="space-y-5">
+                <div class="border-l-4 border-pink-500 pl-4">
+                    <label class="q-label text-sm text-pink-400 mb-2 block font-semibold flex items-center gap-2"><span>👨‍👩‍👧</span> Relato sobre tu Familia</label>
+                    <p class="text-xs text-gray-500 mb-2">Hoy es <input type="text" id="fecha-fut-fam" class="inline-block px-2 py-1 rounded text-xs w-32" placeholder="día/mes/año">. Cuéntame qué cosas importantes tuviste que hacer para llegar hoy a este punto respecto de tu familia.</p>
+                    <textarea id="r-familia" rows="4" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+                </div>
+                <div class="border-l-4 border-blue-500 pl-4">
+                    <label class="q-label text-sm text-blue-400 mb-2 block font-semibold flex items-center gap-2"><span>💼</span> Relato sobre tu Trabajo</label>
+                    <p class="text-xs text-gray-500 mb-2">Hoy es <input type="text" id="fecha-fut-trab" class="inline-block px-2 py-1 rounded text-xs w-32" placeholder="día/mes/año">. Cuéntame qué cosas importantes tuviste que hacer para llegar hoy a este punto respecto de tu trabajo.</p>
+                    <textarea id="r-trabajo" rows="4" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+                </div>
+                <div class="border-l-4 border-green-500 pl-4">
+                    <label class="q-label text-sm text-green-400 mb-2 block font-semibold flex items-center gap-2"><span>🌴</span> Relato sobre tu Tiempo Libre</label>
+                    <p class="text-xs text-gray-500 mb-2">Hoy es <input type="text" id="fecha-fut-tiempo" class="inline-block px-2 py-1 rounded text-xs w-32" placeholder="día/mes/año">. Cuéntame qué cosas importantes tuviste que hacer para llegar hoy a este punto respecto de tu tiempo libre.</p>
+                    <textarea id="r-tiempo" rows="4" class="w-full px-3 py-2 rounded-xl text-sm"></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STEP 8: RESUMEN FINAL -->
+    <section id="step-8" class="step-content">
+        <div class="text-center mb-10 no-print">
+            <h2 class="font-display text-3xl sm:text-4xl font-bold text-white mb-2">Tu Plan Estratégico</h2>
+            <p class="text-gray-400">Resumen completo de tu Misión y Visión</p>
+        </div>
+        <div id="summary-content" class="space-y-8 no-print"></div>
+        <div class="mt-12 flex flex-col sm:flex-row gap-4 justify-center no-print">
+            <button onclick="imprimirResumen()" class="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform text-white">
+                🖨️ Imprimir Resumen
+            </button>
+            <button onclick="descargarHTML()" class="px-8 py-4 bg-gradient-to-r from-green-600 to-teal-600 rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform text-white">
+                📥 Descargar como HTML
+            </button>
+        </div>
+        <p class="text-xs text-gray-500 mt-4 text-center no-print">
+            💡 <strong>Imprimir:</strong> Abre una ventana nueva con el resumen y lanza la impresión automáticamente.<br>
+            💡 <strong>Descargar HTML:</strong> Guarda un archivo HTML independiente que puedes abrir e imprimir cuando quieras.
+        </p>
+    </section>
+
+</main>
+
+<footer id="nav-footer" class="fixed bottom-0 w-full z-50 glass border-t border-white/5 no-print hidden">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+        <button id="btn-prev" class="px-5 py-2 rounded-lg border border-white/10 text-gray-400 hover:text-white hover:bg-white/5 flex items-center gap-2 transition-all">← Anterior</button>
+        <div class="flex gap-2" id="dots-container"></div>
+        <button id="btn-next" class="px-5 py-2 rounded-lg bg-gradient-to-r from-purple-600 to-blue-600 text-white font-medium hover:opacity-90 flex items-center gap-2 transition-all">Siguiente →</button>
+    </div>
+</footer>
+
+<!-- Audios ambientales -->
+<audio id="ambient-river" loop preload="auto" src="https://cdn.pixabay.com/audio/2021/11/24/audio_03d6d55b6d.mp3"></audio>
+<audio id="ambient-forest" loop preload="auto" src="https://cdn.pixabay.com/audio/2022/03/10/audio_c8c8a73467.mp3"></audio>
+<audio id="ambient-rain" loop preload="auto" src="https://cdn.pixabay.com/audio/2022/01/18/audio_d0a13f69d2.mp3"></audio>
+
+<script>
+    let verbs = ["Ahorrar","Entretener","Trabajar","Revisar","Lograr","Evaluar","Liderar","Servir","Alabar","Expresar","Vivir","Apoyar","Aliviar","Facilitar","Hacer","Acariciar","Ascender","Perdonar","Madurar","Comerciar","Otorgar","Reunir","Mediar","Aventurarse","Elegir","Dar","Moldear","Verbalizar","Combinar","Entender","Negociar","Permitir","Completar","Valorar","Organizar","Sanar","Concebir","Escribir","Manejar","Identificar","Conectar","Aconsejar","Jugar","Reformar","Contactar","Alentar","Practicar","Soltar","Crear","Afirmar","Presentar","Respetar","Defender","Apreciar","Progresar","Sacrificar","Demostrar","Creer","Promover","Compartir","Dirigir","Causar","Perseguir","Entregarse","Discutir","Coleccionar","Reducir","Reunirse","Dibujar","Competir","Recibir","Traducir","Ejecutar","Improvisar","Reflexionar","Usar","Dotar","Integrar","Relajarse","Ofrecer","Ingeniar","Saber","Renovar","Iluminar","Abrazar","Nutrir","Validar","Educar","Adquirir","Participar","Abrir","Contratar","Avanzar","Persuadir","Adoptar","Entusiasmar","Amar","Poseer","Afectar","Explorar","Asociarse","Preparar","Amplificar","Extender","Construir","Producir","Brillar","Financiar","Postular","Prometer","Llamar","Fomentar","Comandar","Proveer","Cobrar","Generar","Congratular","Realizar","Comunicar","Curar","Inspirar","Reclamar","Componer","Auspiciar","Mantener","Considerar","Confirmar","Implementar","Conocer","Confiar","Relacionarse","Lanzar","Restaurar","Continuar","Recordar","Encender","Satisfacer","Decidir","Regresar","Motivar","Hablar","Entregar","Vender","Manifestar","Sostener","Idear","Convocar","Medir","Agruparse","Descubrir","Tomar","Modelar","Viajar","Distribuir","Tocar","Mover","Refinar","Soñar","Entrenar"];
+    let groups = ["La familia","Los viajes","La educación","El automodelismo","Los medios de información","Los recursos energéticos","La salud pública","El sistema de justicia","Los ancianos","El gobierno","Los niños","La moda","Los pobres","La infraestructura","La agricultura","La religión","La drogadicción","La espiritualidad","La delincuencia juvenil","La seguridad pública","Las empresas","El turismo","La iglesia","El trato de animales","Los enfermos","Los asuntos fronterizos","El desarrollo humano","La sexualidad","Exploración espacial","El arte","La literatura","Los deportes","Relaciones laborales","La tecnología","Los libros","La defensa","La comida","Recursos de agua","Administración","Los jóvenes","Las finanzas","Comercialización","Biotecnología","Asuntos masculinos","Asuntos femeninos","Derechos humanos"];
+
+    let currentStep = 0;
+    const totalSteps = 8; 
+    let selVerbs = [], selGroups = [];
+    let availableVoices = [];
+    let speechQueue = null;
+    window.isSpeaking = false;
+    let ambientPlaying = false;
+    let currentAmbient = null;
+    let vizAudioLoaded = false;
+    let vizAudioPlaying = false;
+
+    const guideTexts = {
+        1: "Bienvenido, bienvenida. Te invito a que te tomes un momento para vos. Respirá profundo, y conectate con este espacio. Vamos a explorar tu contexto familiar, y lo que las personas más importantes esperaban de ti. No hay respuestas correctas o incorrectas, solo tu verdad. Pensá en tu madre... ¿qué esperaba ella de vos? Escribílo. Ahora pensá en tu padre... ¿qué esperaba él? También en tus abuelos, y en esa otra persona significativa para vos. Tómate tu tiempo. Después, reflexioná sobre los sueños que tus padres no pudieron cumplir, esas vidas no vividas por ellos. ¿Influyeron en vos? ¿De qué manera? Y por último, pensá si hubo alguna profecía negativa hacia vos... y también alguna profecía positiva. Escribí con sinceridad. Este es tu espacio.",
+        2: "Ahora vamos a viajar juntos a tu infancia. Respirá profundo y conectate con ese niño o esa niña que fuiste. Los talentos se manifiestan claramente cuando somos niños, cuando todavía no hemos sido contaminados por creencias limitantes. Pensá... ¿a qué jugabas? ¿cuáles eran tus juguetes favoritos? ¿qué juego se te hacía más fácil? ¿qué le decías a la gente que querías ser de grande? Escribílo. Después, pensá si hay algo de lo que hoy estás haciendo que se relacione con todo lo anterior. ¿Qué es? Ahora, pensá en qué es lo que te dicen que hacés bien. Escribí cinco talentos que te reconozcas. No te juzgues, simplemente reconocelos. ¿Cuáles desarrollaste? ¿cuáles intentaste y abandonaste? Y finalmente... ¿qué es lo que más te gusta hacer? Tómate tu tiempo.",
+        3: "En esta etapa vamos a descubrir tus valores, y el servicio que querés ofrecer al mundo. Primero, pensá en las personas que admirás. Pueden ser de hoy, o de otra época. ¿Qué valores percibís en ellas? Escribilos. Quiero que sepas algo importante: esos valores que observás en esas personas, son tuyos también. De otra manera, no podrías verlos en otros. Después, elegí de la lista las tres acciones que más te entusiasman. Toda misión implica servir a otros, así que seleccioná los tres grupos humanos a los que te gustaría dar ese servicio. No hay respuestas correctas, solo lo que resuena con vos.",
+        4: "Llegamos a un momento muy especial. Con todo lo que has descubierto sobre vos mismo, es momento de redactar tu Misión Personal. Observá cómo tus acciones, tus valores, y el grupo al que querés servir, se unen en una sola frase poderosa. Esta es tu razón de ser. Tu propósito. Léela con atención, sentila en tu corazón, y ajustala si es necesario. No tengas prisa. Tu misión es única, como única es tu vida. Tómate el tiempo que necesites para que esta frase realmente te represente.",
+        5: "Ahora vamos a trabajar en tu Visión Personal. Te voy a hacer preguntas poderosas, y te pido que las respondas desde el corazón. Primero, pensá... ¿qué harías si fueras cien veces más valiente o corajuda, y el dinero no importara? Pensalo en cada ámbito: tu familia, tu trabajo, y tu tiempo libre. Escribí lo que surja, sin filtros. Después, conectate con una pregunta profunda: estás a punto de morir, y alguien te pregunta de qué estás orgulloso respecto de tu vida. ¿Qué le contarías a partir de esos tres ámbitos? Finalmente, imaginá tu vida de aquí a cinco años. ¿Qué creés que has logrado? ¿Qué creés que has aprendido? ¿Cómo te ves respecto a tus relaciones, y con quién te estás relacionando? Respirá, y dejá que las respuestas fluyan.",
+        7: "Es momento de consolidar tu visión. Te invito a que dividas una hoja en tres, y dibujes tus visiones: todo lo que visualizaste respecto de tu familia, tu trabajo y tu tiempo libre. Podés subir una foto de cada dibujo. No necesitás ser artista, simplemente dejá que tu creatividad fluya. Después, vas a desarrollar tres relatos, como si todo fuera posible. Imaginá que han pasado cinco años, y contame qué cosas importantes tuviste que hacer para llegar hoy a este punto, uno por cada ámbito: tu familia, tu trabajo y tu tiempo libre. Escribí desde el futuro, como si ya lo hubieras logrado. Dejá que las palabras fluyan."
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('input-date').value = today;
+        const future = new Date(); future.setFullYear(future.getFullYear() + 5);
+        const futureStr = future.toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' });
+        document.getElementById('fecha-fut-fam').value = futureStr;
+        document.getElementById('fecha-fut-trab').value = futureStr;
+        document.getElementById('fecha-fut-tiempo').value = futureStr;
+        renderLists(); renderDots(); setupNav(); loadState();
+        
+        setupAudioControls();
+        
+        speechSynthesis.onvoiceschanged = () => { 
+            availableVoices = speechSynthesis.getVoices(); 
+            loadVoices();
+        };
+        setTimeout(() => {
+            availableVoices = speechSynthesis.getVoices();
+            if (availableVoices.length > 0) loadVoices();
+        }, 500);
+        
+        // Intentar cargar el audio de visualización por defecto
+        tryLoadVizAudio();
+        
+        // Activar música ambiental por defecto
+        setTimeout(() => {
+            document.getElementById('ambient-sound').value = 'river';
+            toggleAmbientSound();
+        }, 1000);
+    });
+
+    function setupAudioControls() {
+        const musicVol = document.getElementById('music-volume');
+        const voiceRate = document.getElementById('voice-rate');
+        const voicePitch = document.getElementById('voice-pitch');
+        const ambientSelect = document.getElementById('ambient-sound');
+        
+        musicVol.addEventListener('input', (e) => {
+            document.getElementById('music-vol-display').textContent = e.target.value + '%';
+            if (ambientPlaying && currentAmbient) {
+                currentAmbient.volume = parseInt(e.target.value) / 100;
+            }
+        });
+        
+        voiceRate.addEventListener('input', (e) => {
+            document.getElementById('rate-display').textContent = e.target.value + 'x';
+        });
+        
+        voicePitch.addEventListener('input', (e) => {
+            document.getElementById('pitch-display').textContent = e.target.value + 'x';
+        });
+        
+        ambientSelect.addEventListener('change', () => {
+            if (ambientPlaying) {
+                stopAmbientSound();
+                toggleAmbientSound();
+            }
+        });
+    }
+
+    function loadVoices() {
+        const select = document.getElementById('voice-select');
+        if (!select) return;
+        
+        const latinLangs = ['es-LA', 'es-MX', 'es-AR', 'es-CO', 'es-CL', 'es-PE', 'es-VE', 'es-EC', 'es-UY', 'es-PY', 'es-BO', 'es-CR', 'es-PA', 'es-DO', 'es-GT', 'es-HN', 'es-SV', 'es-NI', 'es-PR', 'es-US'];
+        
+        const latinVoices = availableVoices.filter(v => 
+            latinLangs.includes(v.lang) || 
+            v.name.toLowerCase().includes('latin') ||
+            v.name.toLowerCase().includes('mexico') ||
+            v.name.toLowerCase().includes('argentina') ||
+            v.name.toLowerCase().includes('paulina') ||
+            v.name.toLowerCase().includes('mónica') ||
+            v.name.toLowerCase().includes('monica') ||
+            v.name.toLowerCase().includes('luciana') ||
+            v.name.toLowerCase().includes('diego') ||
+            v.name.toLowerCase().includes('ximena')
+        );
+        
+        const voicesToShow = latinVoices.length > 0 ? latinVoices : availableVoices.filter(v => v.lang.startsWith('es'));
+        
+        if (voicesToShow.length === 0) {
+            select.innerHTML = '<option value="">No hay voces en español disponibles</option>';
+        } else {
+            select.innerHTML = voicesToShow.map((v, i) => 
+                `<option value="${i}">${v.name} (${v.lang})</option>`
+            ).join('');
+        }
+    }
+
+    function toggleAudioConfig() {
+        const panel = document.getElementById('audio-config-panel');
+        panel.classList.toggle('hidden');
+    }
+
+    function getSelectedVoice() {
+        const select = document.getElementById('voice-select');
+        if (!select || !select.value) return null;
+        
+        const latinLangs = ['es-LA', 'es-MX', 'es-AR', 'es-CO', 'es-CL', 'es-PE', 'es-VE', 'es-EC', 'es-UY', 'es-PY', 'es-BO', 'es-CR', 'es-PA', 'es-DO', 'es-GT', 'es-HN', 'es-SV', 'es-NI', 'es-PR', 'es-US'];
+        const latinVoices = availableVoices.filter(v => 
+            latinLangs.includes(v.lang) || 
+            v.name.toLowerCase().includes('latin') ||
+            v.name.toLowerCase().includes('mexico') ||
+            v.name.toLowerCase().includes('argentina') ||
+            v.name.toLowerCase().includes('paulina')
+        );
+        const voicesToShow = latinVoices.length > 0 ? latinVoices : availableVoices.filter(v => v.lang.startsWith('es'));
+        
+        return voicesToShow[parseInt(select.value)] || null;
+    }
+
+    function testVoice() {
+        const utterance = new SpeechSynthesisUtterance('Hola, esta es una prueba de la voz configurada para tu plan estratégico personal. ¿Te gusta cómo suena?');
+        utterance.rate = parseFloat(document.getElementById('voice-rate').value);
+        utterance.pitch = parseFloat(document.getElementById('voice-pitch').value);
+        
+        const voice = getSelectedVoice();
+        if (voice) {
+            utterance.voice = voice;
+            utterance.lang = voice.lang;
+        } else {
+            utterance.lang = 'es-MX';
+        }
+        
+        speechSynthesis.cancel();
+        speechSynthesis.speak(utterance);
+    }
+
+    function toggleAmbientSound() {
+        const soundType = document.getElementById('ambient-sound').value;
+        const btn = document.getElementById('btn-ambient');
+        const indicator = document.getElementById('music-indicator');
+        const indicatorText = document.getElementById('music-indicator-text');
+        
+        if (ambientPlaying) {
+            stopAmbientSound();
+            return;
+        }
+        
+        if (soundType === 'none') {
+            alert('Selecciona un sonido ambiental primero.');
+            return;
+        }
+        
+        const audioMap = {
+            'river': 'ambient-river',
+            'forest': 'ambient-forest',
+            'rain': 'ambient-rain'
+        };
+        const nameMap = {
+            'river': '🎵 Río',
+            'forest': '🎵 Bosque',
+            'rain': '🎵 Lluvia'
+        };
+        
+        currentAmbient = document.getElementById(audioMap[soundType]);
+        if (!currentAmbient) {
+            alert('No se pudo cargar el audio ambiental.');
+            return;
+        }
+        
+        const volume = parseInt(document.getElementById('music-volume').value) / 100;
+        currentAmbient.volume = 0;
+        currentAmbient.loop = true;
+        
+        currentAmbient.play().then(() => {
+            ambientPlaying = true;
+            let vol = 0;
+            const fade = setInterval(() => {
+                vol += 0.02;
+                if (vol >= volume) {
+                    vol = volume;
+                    clearInterval(fade);
+                }
+                currentAmbient.volume = vol;
+            }, 100);
+            
+            btn.textContent = '⏸️ Pausar Música';
+            btn.classList.remove('bg-blue-600', 'hover:bg-blue-500');
+            btn.classList.add('bg-orange-600', 'hover:bg-orange-500');
+            indicator.classList.remove('hidden');
+            indicatorText.textContent = nameMap[soundType];
+        }).catch(err => {
+            console.error('Error al reproducir:', err);
+            alert('No se pudo reproducir el audio. Haz clic en cualquier parte de la página primero para habilitar el audio.');
+        });
+    }
+
+    function stopAmbientSound() {
+        if (currentAmbient) {
+            const btn = document.getElementById('btn-ambient');
+            const indicator = document.getElementById('music-indicator');
+            
+            let vol = currentAmbient.volume;
+            const fadeOut = setInterval(() => {
+                vol -= 0.02;
+                if (vol <= 0) {
+                    vol = 0;
+                    clearInterval(fadeOut);
+                    currentAmbient.pause();
+                    currentAmbient = null;
+                } else if (currentAmbient) {
+                    currentAmbient.volume = vol;
+                }
+            }, 100);
+            
+            ambientPlaying = false;
+            btn.textContent = '▶️ Activar Música';
+            btn.classList.remove('bg-orange-600', 'hover:bg-orange-500');
+            btn.classList.add('bg-blue-600', 'hover:bg-blue-500');
+            indicator.classList.add('hidden');
+        }
+    }
+
+    // === FUNCIÓN PARA CARGAR AUDIO DE VISUALIZACIÓN ===
+    function tryLoadVizAudio() {
+        const audio = document.getElementById('my-viz-audio');
+        const status = document.getElementById('audio-status');
+        
+        if (!audio) return;
+        
+        // Intentar cargar el archivo por defecto
+        audio.src = 'Dinámca de visión.wav';
+        
+        audio.addEventListener('canplaythrough', () => {
+            vizAudioLoaded = true;
+            status.textContent = '✅ Audio listo: "Dinámca de visión.wav" cargado correctamente';
+            status.className = 'audio-status success';
+        }, { once: true });
+        
+        audio.addEventListener('loadeddata', () => {
+            vizAudioLoaded = true;
+            status.textContent = '✅ Audio listo: "Dinámca de visión.wav" cargado correctamente';
+            status.className = 'audio-status success';
+            audio.classList.remove('hidden');
+        }, { once: true });
+        
+        audio.addEventListener('error', (e) => {
+            console.log('No se pudo cargar el audio por defecto:', e);
+            status.textContent = '⚠️ No se encontró "Dinámca de visión.wav". Por favor, subí tu archivo de audio usando el botón de arriba.';
+            status.className = 'audio-status warning';
+        }, { once: true });
+        
+        // Intentar cargar
+        audio.load();
+    }
+
+    // === FUNCIÓN PARA SUBIR AUDIO DE VISUALIZACIÓN ===
+    function handleVizAudioUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        
+        const audio = document.getElementById('my-viz-audio');
+        const status = document.getElementById('audio-status');
+        const label = document.getElementById('upload-label');
+        
+        // Crear URL del archivo
+        const url = URL.createObjectURL(file);
+        audio.src = url;
+        audio.classList.remove('hidden');
+        
+        audio.addEventListener('canplaythrough', () => {
+            vizAudioLoaded = true;
+            status.textContent = `✅ Audio cargado: "${file.name}" listo para reproducir`;
+            status.className = 'audio-status success';
+            label.textContent = `✅ ${file.name} cargado`;
+        }, { once: true });
+        
+        audio.addEventListener('loadeddata', () => {
+            vizAudioLoaded = true;
+            status.textContent = `✅ Audio cargado: "${file.name}" listo para reproducir`;
+            status.className = 'audio-status success';
+            label.textContent = `✅ ${file.name} cargado`;
+        }, { once: true });
+        
+        audio.addEventListener('error', () => {
+            status.textContent = `❌ Error al cargar "${file.name}". Intenta con otro formato.`;
+            status.className = 'audio-status error';
+        }, { once: true });
+        
+        audio.load();
+    }
+
+    function renderLists() {
+        document.getElementById('verbs-box').innerHTML = verbs.sort().map(v => 
+            `<div onclick="toggleSel('v','${v}',this)" class="card-sel px-2 py-1.5 rounded text-xs text-gray-300 border border-white/10 hover:border-purple-500/30 text-center ${selVerbs.includes(v) ? 'sel' : ''}">${v}</div>`
+        ).join('');
+        document.getElementById('groups-box').innerHTML = groups.sort().map(g => 
+            `<div onclick="toggleSel('g','${g}',this)" class="card-sel px-2 py-1.5 rounded text-xs text-gray-300 border border-white/10 hover:border-blue-500/30 text-center ${selGroups.includes(g) ? 'sel' : ''}">${g}</div>`
+        ).join('');
+    }
+
+    function renderDots() {
+        document.getElementById('dots-container').innerHTML = Array(totalSteps).fill(0).map((_,i) => 
+            `<div id="dot-${i}" class="w-2 h-2 rounded-full bg-gray-700 transition-all"></div>`
+        ).join('');
+    }
+
+    function setupNav() {
+        document.getElementById('btn-prev').onclick = prev;
+        document.getElementById('btn-next').onclick = next;
+    }
+
+    function addCustomGroup() {
+        const val = document.getElementById('custom-group-input').value.trim();
+        if (val) { if (!groups.includes(val)) groups.push(val); renderLists(); if(selGroups.length<3) toggleSel('g',val,null); document.getElementById('custom-group-input').value=''; }
+    }
+
+    function goTo(stepIndex) {
+        if (stepIndex === 1 && !document.getElementById('input-name').value.trim()) { alert("Ingresa tu nombre."); return; }
+        window.speechSynthesis.cancel();
+        stopVizAudio();
+        document.querySelectorAll('.step-content').forEach(el => el.classList.remove('active'));
+        const target = document.getElementById('step-' + stepIndex);
+        if (target) target.classList.add('active');
+        currentStep = stepIndex;
+        const footer = document.getElementById('nav-footer');
+        if (stepIndex === 0) footer.classList.add('hidden');
+        else {
+            footer.classList.remove('hidden');
+            if (stepIndex === totalSteps) {
+                document.getElementById('btn-next').innerHTML = 'Finalizar';
+                document.getElementById('btn-next').onclick = imprimirResumen;
+                genSummary();
+            } else {
+                document.getElementById('btn-next').innerHTML = 'Siguiente →';
+                document.getElementById('btn-next').onclick = next;
+            }
+            if (stepIndex === 4) updMission();
+        }
+        const pct = (stepIndex / totalSteps) * 100;
+        document.getElementById('progress-bar').style.width = pct + '%';
+        for(let i=0; i<totalSteps; i++) {
+            const dot = document.getElementById('dot-'+i);
+            dot.classList.remove('bg-purple-500', 'bg-green-500'); dot.style.transform = 'scale(1)';
+            if(i === stepIndex) { dot.classList.add('bg-purple-500'); dot.style.transform = 'scale(1.5)'; }
+            else if (i < stepIndex) dot.classList.add('bg-green-500');
+        }
+        saveState(); window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function next() { if (currentStep < totalSteps) goTo(currentStep + 1); }
+    function prev() { if (currentStep > 0) goTo(currentStep - 1); }
+
+    function toggleSel(type, val, el) {
+        const arr = type === 'v' ? selVerbs : selGroups;
+        if (arr.includes(val)) { arr.splice(arr.indexOf(val), 1); if(el) el.classList.remove('sel'); }
+        else { if(arr.length >= 3) return alert('Máximo 3 selecciones.'); arr.push(val); if(el) el.classList.add('sel'); }
+    }
+
+    function updMission() {
+        const v = selVerbs.length ? selVerbs.join(', ') : '...';
+        const val = document.getElementById('q-valores').value || '...';
+        const g = selGroups.length ? selGroups.join(', ') : '...';
+        document.getElementById('pv-acciones').textContent = v; document.getElementById('pv-valores').textContent = val; document.getElementById('pv-grupos').textContent = g;
+        document.getElementById('mision-final').value = `Mi MISIÓN es ${v} con ${val} al servicio de ${g}`;
+    }
+
+    function handleDrawUpload(event, imgId, phId) {
+        const f = event.target.files[0];
+        if (f) {
+            const r = new FileReader();
+            r.onload = (ev) => {
+                const img = document.getElementById(imgId);
+                img.src = ev.target.result;
+                img.classList.remove('hidden');
+                document.getElementById(phId).classList.add('hidden');
+            };
+            r.readAsDataURL(f);
+        }
+    }
+
+    function splitIntoNaturalChunks(text) {
+        let chunks = text.match(/[^.!?…]+[.!?…]+|[^.!?…]+$/g) || [text];
+        let finalChunks = [];
+        chunks.forEach(chunk => {
+            const trimmed = chunk.trim();
+            if (trimmed.length > 120) {
+                const subChunks = trimmed.split(/(?<=[,;])\s+|(?<=\.\.\.)\s+/);
+                finalChunks.push(...subChunks.filter(s => s.trim().length > 0));
+            } else {
+                finalChunks.push(trimmed);
+            }
+        });
+        return finalChunks.filter(c => c.length > 0);
+    }
+
+    function speakChunks(text, btnId = null, waveId = null) {
+        window.speechSynthesis.cancel();
+        const chunks = splitIntoNaturalChunks(text);
+        let i = 0;
+        const btn = btnId ? document.getElementById(btnId) : null;
+        const wave = waveId ? document.getElementById(waveId) : null;
+        if (btn) btn.innerHTML = '<span class="animate-pulse">🔊 Reproduciendo...</span>';
+        if (wave) wave.classList.remove('hidden');
+
+        const rate = parseFloat(document.getElementById('voice-rate').value);
+        const pitch = parseFloat(document.getElementById('voice-pitch').value);
+        const selectedVoice = getSelectedVoice();
+
+        function speakNext() {
+            if (i >= chunks.length) { 
+                if(btn) btn.innerHTML = btn.dataset.original || btn.innerHTML;
+                if(wave) wave.classList.add('hidden');
+                window.isSpeaking = false; 
+                return; 
+            }
+            const u = new SpeechSynthesisUtterance(chunks[i].trim());
+            
+            if (selectedVoice) {
+                u.voice = selectedVoice;
+                u.lang = selectedVoice.lang;
+            } else {
+                u.lang = 'es-MX';
+            }
+            
+            u.rate = rate;
+            u.pitch = pitch;
+            u.volume = 1;
+            
+            u.onend = () => { 
+                i++; 
+                const pauseTime = chunks[i-1].includes('...') ? 900 : 
+                                  chunks[i-1].includes('?') || chunks[i-1].includes('!') ? 700 : 450;
+                speechQueue = setTimeout(speakNext, pauseTime); 
+            };
+            u.onerror = () => { 
+                if(btn) btn.innerHTML = btn.dataset.original || btn.innerHTML;
+                if(wave) wave.classList.add('hidden');
+                window.isSpeaking = false; 
+            };
+            window.speechSynthesis.speak(u);
+        }
+        window.isSpeaking = true;
+        speakNext();
+    }
+
+    function speakGuide(stepNum) {
+        const text = guideTexts[stepNum];
+        if (!text) return;
+        const btn = document.getElementById(`listen-btn-${stepNum}`);
+        if (!btn.dataset.original) btn.dataset.original = btn.innerHTML;
+        speakChunks(text, `listen-btn-${stepNum}`, `wave-${stepNum}`);
+    }
+
+    // === FUNCIÓN PARA REPRODUCIR AUDIO DE VISUALIZACIÓN ===
+    function playVisualization() {
+        const btn = document.getElementById('listen-btn-viz');
+        const wave = document.getElementById('wave-viz');
+        const myViz = document.getElementById('my-viz-audio');
+        const vizIndicator = document.getElementById('viz-audio-indicator');
+        const status = document.getElementById('audio-status');
+        
+        // Verificar si hay audio cargado
+        if (!vizAudioLoaded || !myViz.src || myViz.src === '' || myViz.src === window.location.href) {
+            alert('⚠️ Primero necesitas cargar el audio de visualización.\n\nPor favor, usa el botón "📤 Subir mi audio de visualización" para cargar tu archivo "Dinámca de visión.wav" o el audio que desees usar.');
+            return;
+        }
+        
+        // Guardar estado original del botón
+        if (!btn.dataset.original) btn.dataset.original = btn.innerHTML;
+        
+        // Cambiar botón a "Detener"
+        btn.innerHTML = '<span class="animate-pulse">⏸️ Detener</span>';
+        btn.classList.add('opacity-75');
+        btn.onclick = stopVizAudio;
+        
+        // Mostrar ondas
+        if (wave) wave.classList.remove('hidden');
+        
+        // Mostrar indicador en header
+        if (vizIndicator) vizIndicator.classList.remove('hidden');
+        
+        // Actualizar estado
+        status.textContent = '🎙️ Reproduciendo visualización con música de río...';
+        status.className = 'audio-status success';
+        
+        // Reproducir audio de visualización
+        myViz.currentTime = 0;
+        myViz.volume = 1;
+        
+        myViz.play().then(() => {
+            vizAudioPlaying = true;
+            
+            // Si la música ambiental está sonando, bajar su volumen
+            if (ambientPlaying && currentAmbient) {
+                currentAmbient.volume = Math.min(currentAmbient.volume, 0.15);
+            }
+        }).catch(err => {
+            console.error('Error reproduciendo audio:', err);
+            status.textContent = '❌ No se pudo reproducir el audio. Intenta cargarlo nuevamente.';
+            status.className = 'audio-status error';
+            stopVizAudio();
+        });
+        
+        // Cuando termina el audio
+        myViz.onended = () => {
+            vizAudioPlaying = false;
+            resetVizButton();
+            
+            // Restaurar volumen de música ambiental
+            if (ambientPlaying && currentAmbient) {
+                const volume = parseInt(document.getElementById('music-volume').value) / 100;
+                currentAmbient.volume = volume;
+            }
+            
+            status.textContent = '✅ Visualización completada. Podés escucharla nuevamente haciendo clic en "Iniciar".';
+            status.className = 'audio-status info';
+        };
+    }
+
+    function stopVizAudio() {
+        const myViz = document.getElementById('my-viz-audio');
+        const vizIndicator = document.getElementById('viz-audio-indicator');
+        
+        if (myViz) {
+            myViz.pause();
+            myViz.currentTime = 0;
+        }
+        
+        vizAudioPlaying = false;
+        
+        // Restaurar volumen de música ambiental
+        if (ambientPlaying && currentAmbient) {
+            const volume = parseInt(document.getElementById('music-volume').value) / 100;
+            currentAmbient.volume = volume;
+        }
+        
+        resetVizButton();
+    }
+
+    function resetVizButton() {
+        const btn = document.getElementById('listen-btn-viz');
+        const wave = document.getElementById('wave-viz');
+        const vizIndicator = document.getElementById('viz-audio-indicator');
+        
+        if (btn && btn.dataset.original) {
+            btn.innerHTML = btn.dataset.original;
+            btn.classList.remove('opacity-75');
+            btn.onclick = playVisualization;
+        }
+        
+        if (wave) wave.classList.add('hidden');
+        if (vizIndicator) vizIndicator.classList.add('hidden');
+    }
+
+    function genSummary() {
+        const n = document.getElementById('input-name').value || 'Coachee';
+        const v = id => (document.getElementById(id)?.value || '-');
+        
+        const hasImgFam = document.getElementById('img-familia') && !document.getElementById('img-familia').classList.contains('hidden');
+        const hasImgTrab = document.getElementById('img-trabajo') && !document.getElementById('img-trabajo').classList.contains('hidden');
+        const hasImgTiem = document.getElementById('img-tiempo') && !document.getElementById('img-tiempo').classList.contains('hidden');
+
+        const html = `
+            <div class="glass rounded-2xl p-8 border-l-4 border-purple-500">
+                <p class="text-xs uppercase text-gray-400 mb-2">Misión de ${n}</p>
+                <h3 class="font-display text-2xl text-white font-bold">${v('mision-final')}</h3>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="glass rounded-2xl p-6">
+                    <h4 class="font-bold text-purple-400 mb-3 text-xs uppercase">Contexto</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li><span class="text-gray-500 block text-xs">Madre:</span> ${v('q-madre')}</li>
+                        <li><span class="text-gray-500 block text-xs">Padre:</span> ${v('q-padre')}</li>
+                        <li><span class="text-gray-500 block text-xs">Sueños:</span> ${v('q-suenos')}</li>
+                    </ul>
+                </div>
+                <div class="glass rounded-2xl p-6">
+                    <h4 class="font-bold text-blue-400 mb-3 text-xs uppercase">Infancia</h4>
+                    <ul class="text-sm text-gray-300 space-y-2">
+                        <li><span class="text-gray-500 block text-xs">Juegos:</span> ${v('q-juegos')}</li>
+                        <li><span class="text-gray-500 block text-xs">Talentos:</span> ${v('q-talentos')}</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-8">
+                <h3 class="font-display text-2xl font-bold text-white mb-4">Visión Personal</h3>
+                <div class="space-y-3 text-sm">
+                    <p><span class="text-pink-400 font-semibold">Familia:</span> ${v('v-familia')}</p>
+                    <p><span class="text-blue-400 font-semibold">Trabajo:</span> ${v('v-laboral')}</p>
+                    <p><span class="text-green-400 font-semibold">Tiempo Libre:</span> ${v('v-tiempo')}</p>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-8 text-center">
+                <h3 class="font-display text-xl font-bold text-white mb-4">Tus Dibujos de Visión</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div>
+                        <p class="text-sm text-pink-400 font-medium mb-2">👨‍👩‍👧 Familia</p>
+                        ${hasImgFam ? `<img src="${document.getElementById('img-familia').src}" class="rounded-xl border border-white/10 max-h-48 mx-auto">` : '<p class="text-gray-500 text-xs italic">Sin dibujo</p>'}
+                    </div>
+                    <div>
+                        <p class="text-sm text-blue-400 font-medium mb-2">💼 Trabajo</p>
+                        ${hasImgTrab ? `<img src="${document.getElementById('img-trabajo').src}" class="rounded-xl border border-white/10 max-h-48 mx-auto">` : '<p class="text-gray-500 text-xs italic">Sin dibujo</p>'}
+                    </div>
+                    <div>
+                        <p class="text-sm text-green-400 font-medium mb-2">🌴 Tiempo Libre</p>
+                        ${hasImgTiem ? `<img src="${document.getElementById('img-tiempo').src}" class="rounded-xl border border-white/10 max-h-48 mx-auto">` : '<p class="text-gray-500 text-xs italic">Sin dibujo</p>'}
+                    </div>
+                </div>
+            </div>
+            <div class="glass rounded-2xl p-8">
+                <h3 class="font-display text-2xl font-bold text-white mb-4">Tus Relatos desde el Futuro</h3>
+                <div class="space-y-5">
+                    <div class="border-l-4 border-pink-500 pl-4">
+                        <p class="text-sm text-pink-400 font-semibold mb-1">👨‍👩‍👧 Familia - ${v('fecha-fut-fam')}</p>
+                        <p class="text-gray-200 whitespace-pre-line leading-relaxed text-sm">${v('r-familia')}</p>
+                    </div>
+                    <div class="border-l-4 border-blue-500 pl-4">
+                        <p class="text-sm text-blue-400 font-semibold mb-1">💼 Trabajo - ${v('fecha-fut-trab')}</p>
+                        <p class="text-gray-200 whitespace-pre-line leading-relaxed text-sm">${v('r-trabajo')}</p>
+                    </div>
+                    <div class="border-l-4 border-green-500 pl-4">
+                        <p class="text-sm text-green-400 font-semibold mb-1">🌴 Tiempo Libre - ${v('fecha-fut-tiempo')}</p>
+                        <p class="text-gray-200 whitespace-pre-line leading-relaxed text-sm">${v('r-tiempo')}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+        
+        document.getElementById('summary-content').innerHTML = html;
+    }
+
+    function generarHTMLResumen() {
+        const n = document.getElementById('input-name').value || 'Coachee';
+        const v = id => (document.getElementById(id)?.value || '-');
+        
+        const hasImgFam = document.getElementById('img-familia') && !document.getElementById('img-familia').classList.contains('hidden');
+        const hasImgTrab = document.getElementById('img-trabajo') && !document.getElementById('img-trabajo').classList.contains('hidden');
+        const hasImgTiem = document.getElementById('img-tiempo') && !document.getElementById('img-tiempo').classList.contains('hidden');
+
+        return `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Mi Plan Estratégico - ${n}</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Georgia, serif; color: #1a1a1a; padding: 40px; line-height: 1.6; max-width: 900px; margin: 0 auto; }
+    h1 { font-size: 32px; text-align: center; margin-bottom: 10px; color: #4c1d95; }
+    h2 { font-size: 22px; margin: 30px 0 15px; padding-bottom: 8px; border-bottom: 2px solid #8b5cf6; color: #4c1d95; }
+    h3 { font-size: 18px; margin: 20px 0 10px; color: #6d28d9; }
+    .subtitle { text-align: center; color: #666; font-style: italic; margin-bottom: 30px; }
+    .section { margin-bottom: 30px; page-break-inside: avoid; }
+    .mission-box { background: linear-gradient(135deg, #ede9fe, #dbeafe); padding: 25px; border-radius: 12px; border-left: 5px solid #8b5cf6; margin: 20px 0; font-size: 18px; font-style: italic; text-align: center; }
+    .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+    .card { background: #f9fafb; padding: 15px; border-radius: 8px; border: 1px solid #e5e7eb; }
+    .card-title { font-weight: bold; color: #4c1d95; margin-bottom: 8px; font-size: 14px; text-transform: uppercase; }
+    .label { font-weight: bold; color: #6d28d9; font-size: 13px; display: block; margin-bottom: 3px; }
+    .value { color: #374151; margin-bottom: 10px; font-size: 14px; }
+    .relato-box { background: #fff7ed; padding: 15px; border-radius: 8px; border-left: 4px solid #f97316; margin: 15px 0; }
+    .relato-title { font-weight: bold; color: #9a3412; margin-bottom: 8px; }
+    .relato-familia { border-left-color: #ec4899; background: #fdf2f8; }
+    .relato-trabajo { border-left-color: #3b82f6; background: #eff6ff; }
+    .relato-tiempo { border-left-color: #10b981; background: #ecfdf5; }
+    .drawings-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 20px 0; }
+    .drawing-card { text-align: center; padding: 10px; border: 1px solid #e5e7eb; border-radius: 8px; }
+    .drawing-card img { max-width: 100%; max-height: 200px; border-radius: 6px; margin-top: 8px; }
+    .drawing-label { font-weight: bold; font-size: 14px; }
+    .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; color: #9ca3af; font-size: 12px; }
+    @media print { body { padding: 20px; } }
+</style>
+</head>
+<body>
+<h1>🌟 Mi Plan Estratégico Personal</h1>
+<p class="subtitle">Misión y Visión - ${n}</p>
+<p class="subtitle" style="font-size: 12px;">Generado el ${new Date().toLocaleDateString('es-AR', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+
+<div class="section">
+    <h2>🎯 Mi Misión Personal</h2>
+    <div class="mission-box">${v('mision-final')}</div>
+</div>
+
+<div class="section">
+    <h2>📚 Mi Contexto</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="card-title">Expectativas Familiares</div>
+            <span class="label">Mi madre esperaba:</span><div class="value">${v('q-madre')}</div>
+            <span class="label">Mi padre esperaba:</span><div class="value">${v('q-padre')}</div>
+            <span class="label">Mis abuelos esperaban:</span><div class="value">${v('q-abuelos')}</div>
+            <span class="label">Otra persona importante:</span><div class="value">${v('q-otro')}</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Sueños y Profecías</div>
+            <span class="label">Sueños no cumplidos de mis padres:</span><div class="value">${v('q-suenos')}</div>
+            <span class="label">¿Influyeron en mí?</span><div class="value">${v('q-influencia')}</div>
+            <span class="label">Profecía negativa:</span><div class="value">${v('q-profecia-neg')}</div>
+            <span class="label">Profecía positiva:</span><div class="value">${v('q-profecia-pos')}</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>👶 Mi Infancia y Talentos</h2>
+    <div class="grid">
+        <div class="card">
+            <div class="card-title">Mis Juegos Infantiles</div>
+            <span class="label">¿A qué jugaba?</span><div class="value">${v('q-juegos')}</div>
+            <span class="label">Juguetes favoritos:</span><div class="value">${v('q-juguetes')}</div>
+            <span class="label">Juego más fácil:</span><div class="value">${v('q-facil')}</div>
+            <span class="label">Quería ser de grande:</span><div class="value">${v('q-grande')}</div>
+            <span class="label">Relación con hoy:</span><div class="value">${v('q-relacion')}</div>
+        </div>
+        <div class="card">
+            <div class="card-title">Mis Talentos</div>
+            <span class="label">Lo que me dicen que hago bien:</span><div class="value">${v('q-dicen')}</div>
+            <span class="label">5 talentos:</span><div class="value">${v('q-talentos')}</div>
+            <span class="label">Desarrollados:</span><div class="value">${v('q-desarrollo')}</div>
+            <span class="label">Abandonados:</span><div class="value">${v('q-abandono')}</div>
+            <span class="label">Lo que más me gusta:</span><div class="value">${v('q-gusta')}</div>
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>💜 Mis Valores y Servicio</h2>
+    <div class="card">
+        <span class="label">Personas que admiro:</span><div class="value">${v('q-admira')}</div>
+        <span class="label">Valores que representan:</span><div class="value">${v('q-valores')}</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>🔭 Mi Visión Personal</h2>
+    <h3>¿Qué haría si fuera 100 veces más valiente y el dinero no importara?</h3>
+    <div class="grid">
+        <div class="card"><span class="label">👨‍👩‍👧 Familia:</span><div class="value">${v('v-familia')}</div></div>
+        <div class="card"><span class="label">💼 Trabajo:</span><div class="value">${v('v-laboral')}</div></div>
+        <div class="card"><span class="label">🌴 Tiempo Libre:</span><div class="value">${v('v-tiempo')}</div></div>
+    </div>
+    <h3>¿De qué estoy orgulloso/a respecto de mi vida?</h3>
+    <div class="card"><div class="value">${v('v-orgulloso')}</div></div>
+    <h3>🔮 Proyección a 5 años</h3>
+    <div class="grid">
+        <div class="card"><span class="label">¿Qué he logrado?</span><div class="value">${v('v-logros')}</div></div>
+        <div class="card"><span class="label">¿Qué he aprendido?</span><div class="value">${v('v-aprendido')}</div></div>
+    </div>
+    <div class="card" style="margin-top: 10px;">
+        <span class="label">¿Cómo me veo respecto a mis relaciones?</span><div class="value">${v('v-relaciones')}</div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>🎨 Mis Dibujos de Visión</h2>
+    <div class="drawings-grid">
+        <div class="drawing-card">
+            <div class="drawing-label" style="color: #ec4899;">👨‍👩‍👧 Familia</div>
+            ${hasImgFam ? `<img src="${document.getElementById('img-familia').src}">` : '<p style="color: #9ca3af; font-size: 12px; margin-top: 10px;">Sin dibujo</p>'}
+        </div>
+        <div class="drawing-card">
+            <div class="drawing-label" style="color: #3b82f6;">💼 Trabajo</div>
+            ${hasImgTrab ? `<img src="${document.getElementById('img-trabajo').src}">` : '<p style="color: #9ca3af; font-size: 12px; margin-top: 10px;">Sin dibujo</p>'}
+        </div>
+        <div class="drawing-card">
+            <div class="drawing-label" style="color: #10b981;">🌴 Tiempo Libre</div>
+            ${hasImgTiem ? `<img src="${document.getElementById('img-tiempo').src}">` : '<p style="color: #9ca3af; font-size: 12px; margin-top: 10px;">Sin dibujo</p>'}
+        </div>
+    </div>
+</div>
+
+<div class="section">
+    <h2>📖 Mis Relatos desde el Futuro</h2>
+    <div class="relato-box relato-familia">
+        <div class="relato-title">👨‍👩‍👧 Relato sobre mi Familia - ${v('fecha-fut-fam')}</div>
+        <div style="white-space: pre-wrap;">${v('r-familia')}</div>
+    </div>
+    <div class="relato-box relato-trabajo">
+        <div class="relato-title">💼 Relato sobre mi Trabajo - ${v('fecha-fut-trab')}</div>
+        <div style="white-space: pre-wrap;">${v('r-trabajo')}</div>
+    </div>
+    <div class="relato-box relato-tiempo">
+        <div class="relato-title">🌴 Relato sobre mi Tiempo Libre - ${v('fecha-fut-tiempo')}</div>
+        <div style="white-space: pre-wrap;">${v('r-tiempo')}</div>
+    </div>
+</div>
+
+<div class="footer">
+    <p>"Aquel que tiene un porqué para vivir, se puede enfrentar a todos los cómos." - Friedrich Nietzsche</p>
+    <p style="margin-top: 10px;">Plan Estratégico Personal generado por ${n}</p>
+</div>
+
+</body>
+</html>`;
+    }
+
+    function imprimirResumen() {
+        genSummary();
+        const htmlContent = generarHTMLResumen();
+        const nuevaVentana = window.open('', '_blank');
+        
+        if (!nuevaVentana) {
+            alert('⚠️ Tu navegador bloqueó la ventana emergente.\n\nPor favor:\n1. Permite las ventanas emergentes para este sitio, O\n2. Usa el botón "Descargar como HTML" como alternativa.');
+            return;
+        }
+        
+        nuevaVentana.document.open();
+        nuevaVentana.document.write(htmlContent);
+        nuevaVentana.document.close();
+        
+        nuevaVentana.onload = function() {
+            setTimeout(() => {
+                nuevaVentana.focus();
+                nuevaVentana.print();
+            }, 600);
+        };
+    }
+
+    function descargarHTML() {
+        genSummary();
+        const htmlContent = generarHTMLResumen();
+        const nombreArchivo = `Mi_Plan_Estrategico_${(document.getElementById('input-name').value || 'Plan').replace(/\s+/g, '_')}.html`;
+        
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = nombreArchivo;
+        a.style.display = 'none';
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }, 100);
+        
+        setTimeout(() => {
+            alert('✅ Archivo descargado: "' + nombreArchivo + '"\n\n📌 Para imprimirlo:\n1. Abre el archivo descargado en tu navegador\n2. Presiona Ctrl+P (Windows) o Cmd+P (Mac)\n3. Selecciona "Guardar como PDF" o imprime directamente');
+        }, 300);
+    }
+
+    function saveState() {
+        const d = {}; document.querySelectorAll('input, textarea').forEach(el => { if(el.id) d[el.id] = el.value; });
+        d.selVerbs = selVerbs; d.selGroups = selGroups; d.step = currentStep;
+        localStorage.setItem('mvData', JSON.stringify(d));
+    }
+
+    function loadState() {
+        try {
+            const raw = localStorage.getItem('mvData');
+            if (!raw) return;
+            const d = JSON.parse(raw);
+            document.querySelectorAll('input, textarea').forEach(el => { if(el.id && d[el.id]) el.value = d[el.id]; });
+            if (d.selVerbs) selVerbs = d.selVerbs; if (d.selGroups) selGroups = d.selGroups;
+            renderLists(); if (d.step > 0) goTo(d.step);
+        } catch(e) {}
+    }
+</script>
+</body>
+</html>
